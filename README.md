@@ -1,5 +1,4 @@
-# Final Project for CSCI 633
-# Biologically-Inspired Intelligent Systems
+## Final Project for CSCI 633: Biologically-Inspired Intelligent Systems
 
 ### Requirements
 * Python3
