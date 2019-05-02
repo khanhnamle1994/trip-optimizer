@@ -121,11 +121,19 @@ def XGBmodel(X, y):
 
     print('Mean Absolute Error:', mae)
     print('Feature Importance:', feature_scores)
+
+    # Plot feature importance
+    fig, ax = plt.subplots(figsize=(12,18))
+    xgb.plot_importance(gbm, max_num_features=50, height=0.8, ax=ax)
+    plt.savefig('Figures/xgb_feature_importance.png')
+
     return gbm
 
 if __name__ == '__main__':
     # Read train file
     train_df = pd.read_csv('Taxi-Trip-Duration-Data/train.csv')
+
+    # Engineer features
     featureEngineer(train_df)
 
     # Get features and labels for the data
