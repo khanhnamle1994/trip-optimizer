@@ -131,14 +131,14 @@ def XGBmodel(X, y):
 
 if __name__ == '__main__':
     # Read train file
-    train_df = pd.read_csv('Taxi-Trip-Duration-Data/train.csv')
+    taxiDB = pd.read_csv('Taxi-Trip-Duration-Data/train.csv')
 
     # Engineer features
-    featureEngineer(train_df)
+    featureEngineer(taxiDB)
 
     # Get features and labels for the data
-    X = train_df.drop(["trip_duration", "id", "vendor_id", "pickup_datetime", "dropoff_datetime"], axis=1)
-    y = train_df["trip_duration"]
+    X = taxiDB.drop(["trip_duration", "id", "vendor_id", "pickup_datetime", "dropoff_datetime"], axis=1)
+    y = taxiDB["trip_duration"]
 
     # Train XGB Model to our data
     model = XGBmodel(X, y)
