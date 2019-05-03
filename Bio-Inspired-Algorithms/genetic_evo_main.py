@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import datetime
 import pickle
+import copy
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 import xgboost as xgb
@@ -188,17 +189,17 @@ for g in range(generations):
         curr_cost = total_cost_from_path(curr_element)
 
         if candidate_cost < curr_cost:
-            population[i] = candidate
+            population[i] = copy.copy(candidate)
             g_star.append(candidate_cost)
         else:
             g_star.append(curr_cost)
 
     best_cost = min(g_star)
-    best_path = population[g_star.index(min(g_star))]
+    y_values.append(best_cost)
+    best_path = population[g_star.index(best_cost)]
     if args.verbose:
         print("Generation #", str(g+1), "best cost:",
               best_cost, "path:", best_path)
-        y_values.append(best_cost)
 
 print("Min cost mean:", np.mean(y_values))
 print("Min cost standard deviation:", np.std(y_values))
