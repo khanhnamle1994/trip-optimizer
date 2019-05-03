@@ -184,7 +184,7 @@ for g in range(generations):
         candidate += missing_indicies
 
         # Selection
-        # Select parent based on smaller ackley value
+        # Select parent based on smaller path cost
         candidate_cost = total_cost_from_path(candidate)
         curr_cost = total_cost_from_path(curr_element)
 
