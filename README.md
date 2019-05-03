@@ -2,7 +2,7 @@
 ## Biologically-Inspired Intelligent Systems
 
 ### Requirements
-* Python3
+* python3
 * matplotlib
 * numpy
 * pandas
@@ -48,3 +48,6 @@ optional arguments:
   -h, --help  show this help message and exit
   --verbose   print out each generation cost and best path
 ```
+### Output
+![](https://i.imgur.com/9Iji3RD.gif)
+![](https://i.imgur.com/S490pPp.gif)
