@@ -1,3 +1,4 @@
+# Modified version from: https://github.com/ppoffice/ant-colony-tsp
 import operator
 
 import matplotlib.pyplot as plt
@@ -16,6 +17,12 @@ def plot(points, path: list):
         j = path[_]
         plt.arrow(x[i], y[i], x[j] - x[i], y[j] - y[i],
                   color='r', length_includes_head=True)
+
+    # Close the loop and highlight the last and first point path
+    i = path[-1]  # Last point index
+    j = path[0]  # First point index
+    plt.arrow(x[i], y[i], x[j] - x[i], y[j] - y[i],
+              color='b', length_includes_head=True)
 
     zoom_factor = 0.01
     plt.xlim(min(x) - zoom_factor, max(x) + zoom_factor)

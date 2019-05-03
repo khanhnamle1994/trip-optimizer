@@ -1,4 +1,5 @@
-## Final Project for CSCI 633: Biologically-Inspired Intelligent Systems
+# Final Project for CSCI 633
+# Biologically-Inspired Intelligent Systems
 
 ### Requirements
 * Python3
@@ -30,6 +31,21 @@ positional arguments:
   rho         specify rho the pheromone evaporation / residual coefficient
               (default is 0.5)
   q           specify q the pheromone intensity (default is 10.0)
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --verbose   print out each generation cost and best path
+```
+```
+$ python3 genetic_evo_main.py -h
+usage: genetic_evo_main.py [-h] [--verbose] loc_count n g m c
+
+positional arguments:
+  loc_count   number of locations (default is 15)
+  n           population size (default is 10)
+  g           number of generations (default is 100)
+  m           mutation factor (default is 0.5)
+  c           crossover rate (default is 0.7)
 
 optional arguments:
   -h, --help  show this help message and exit

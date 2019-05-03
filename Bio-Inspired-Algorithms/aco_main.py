@@ -1,3 +1,6 @@
+# Modified version of main.py from:
+# https://github.com/ppoffice/ant-colony-tsp
+
 import math
 import pandas as pd
 import numpy as np
@@ -6,6 +9,7 @@ from plot import plot
 import datetime
 import pickle
 import argparse
+from geopy.exc import GeocoderTimedOut
 from geopy.geocoders import Nominatim
 import xgboost as xgb
 import pprint
@@ -15,18 +19,19 @@ loaded_model = pickle.load(open(filename, 'rb'))
 geolocator = Nominatim(user_agent="aco-application")
 
 
-def time_cost_between_points(loc1, loc2, passenger_count, pickup_datetime, store_and_fwd_flag=0):
+def time_cost_between_points(loc1, loc2, passenger_count, store_and_fwd_flag=0):
     """
     Calculate the time (in minutes) between two points
     using the trained XGB model
     """
-    date_list = pickup_datetime.split(' ')[0].split('-')
-    my_date = datetime.date(year=int(date_list[0]), month=int(
-        date_list[1]), day=int(date_list[2]))
+    # Hardcode the date to get consistent calculations
+    date_list = [27, 5, 2016]  # May 27, 2016
 
-    time_list = pickup_datetime.split(' ')[1].split(':')
-    pickup_hour = int(time_list[0])
-    pickup_minute = int(time_list[1])
+    year = int(date_list[2])
+    month = int(date_list[1])
+    day = int(date_list[0])
+
+    my_date = datetime.date(year, month, day)
 
     model_data = {'passenger_count': passenger_count,
                   'pickup_longitude': loc1['x'],
@@ -37,8 +42,8 @@ def time_cost_between_points(loc1, loc2, passenger_count, pickup_datetime, store
                   'pickup_month': my_date.month,
                   'pickup_day': my_date.day,
                   'pickup_weekday': my_date.weekday(),
-                  'pickup_hour': pickup_hour,
-                  'pickup_minute': pickup_minute,
+                  'pickup_hour': 11,
+                  'pickup_minute': 0,
                   'latitude_difference': loc2['y'] - loc1['y'],
                   'longitude_difference': loc2['x'] - loc1['x'],
                   'trip_distance': trip_distance_cost(loc1, loc2)
@@ -102,29 +107,30 @@ for i in range(rank):
     for j in range(rank):
         row.append(time_cost_between_points(
             locations[i], locations[j],
-            1, str(datetime.datetime.now()),
-            0))
+            1, 0))
     cost_matrix.append(row)
-
-# Default values without user specifying from command line
-# aco = ACO(ant_count=10, generations=100, alpha=1.0,
-#           beta=10.0, rho=0.5, q=10, strategy=1)
 
 # Pass in user arguments
 aco = ACO(ant_count=args.ant_count, generations=args.g, alpha=args.alpha,
-          beta=args.beta, rho=args.rho, q=args.q, strategy=2)
+          beta=args.beta, rho=args.rho, q=args.q, strategy=1)
 
 # Build graph with cost matrix and number of points
 graph = Graph(cost_matrix, rank)
 # Get results from ant colony, specify whether verbose output
-path, cost = aco.solve(graph, args.verbose)
+best_path, cost = aco.solve(graph, args.verbose)
 
 # Print out and plot final solution
-print('final cost: {} minutes, path: {}'.format(cost, path))
-print("final path addresses:")
-addresses = []
-for p in path:
-    addresses.append(geolocator.reverse(
-        f"{points[p][1]}, {points[p][0]}").address)
-pprint.pprint(addresses)
-plot(points, path)
+print('Final cost: {} minutes, path: {}'.format(cost, best_path))
+# Print out final addresses in solution
+if args.verbose:
+    print("Final path addresses:")
+    try:
+        addresses = []
+        for p in best_path:
+            addresses.append(geolocator.reverse(
+                f"{points[p][1]}, {points[p][0]}").address)
+        pprint.pprint(addresses)
+    except GeocoderTimedOut as e:
+        print(f"Error: geocode failed with message {e}")
+
+plot(points, best_path)

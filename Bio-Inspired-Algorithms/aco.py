@@ -1,3 +1,4 @@
+# ACO implementation from: https://github.com/ppoffice/ant-colony-tsp
 import random
 
 
@@ -9,7 +10,6 @@ class Graph(object):
         """
         self.matrix = cost_matrix
         self.rank = rank
-        # noinspection PyUnusedLocal
         self.pheromone = [[1 / (rank * rank)
                            for j in range(rank)] for i in range(rank)]
 
@@ -62,8 +62,8 @@ class ACO(object):
                 ant._update_pheromone_delta()
             self._update_pheromone(graph, ants)
             if verbose:
-                print('generation #{}, best cost: {}, path: {}'.format(
-                    gen, best_cost, best_solution))
+                print('Generation #{} best cost: {}, path: {}'.format(
+                    gen+1, best_cost, best_solution))
         return best_solution, best_cost
 
 
