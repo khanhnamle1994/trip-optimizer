@@ -70,19 +70,19 @@ def trip_distance_cost(loc1, loc2):
 # Read in command line arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("loc_count", type=int,
-                    help="specify number of locations (default is 15)")
+                    help="number of locations (default is 15)")
 parser.add_argument("ant_count", type=int,
-                    help="specify number of ants to use (default is 10)")
+                    help="number of ants to use (default is 10)")
 parser.add_argument("g", type=int,
-                    help="specify number of generations (default is 100)")
+                    help="number of generations (default is 100)")
 parser.add_argument("alpha", type=float,
-                    help="specify alpha the relative importance of pheromone (default is 1.0)")
+                    help="relative importance of pheromone (default is 1.0)")
 parser.add_argument("beta", type=float,
-                    help="specify beta the relative importance of heuristic information (default is 10.0)")
+                    help="relative importance of heuristic information (default is 10.0)")
 parser.add_argument("rho", type=float,
-                    help="specify rho the pheromone evaporation / residual coefficient (default is 0.5)")
+                    help="pheromone residual coefficient (default is 0.5)")
 parser.add_argument("q", type=float,
-                    help="specify q the pheromone intensity (default is 10.0)")
+                    help="pheromone intensity (default is 10.0)")
 parser.add_argument("--verbose", action="store_true",
                     help="print out each generation cost and best path")
 args = parser.parse_args()

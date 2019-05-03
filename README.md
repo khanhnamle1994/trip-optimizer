@@ -1,5 +1,5 @@
 # Final Project for CSCI 633
-# Biologically-Inspired Intelligent Systems
+## Biologically-Inspired Intelligent Systems
 
 ### Requirements
 * Python3
@@ -21,16 +21,13 @@ $ python3 aco_main.py -h
 usage: aco_main.py [-h] [--verbose] loc_count ant_count g alpha beta rho q
 
 positional arguments:
-  loc_count   specify number of locations (default is 15)
-  ant_count   specify number of ants to use (default is 10)
-  g           specify number of generations (default is 100)
-  alpha       specify alpha the relative importance of pheromone (default is
-              1.0)
-  beta        specify beta the relative importance of heuristic information
-              (default is 10.0)
-  rho         specify rho the pheromone evaporation / residual coefficient
-              (default is 0.5)
-  q           specify q the pheromone intensity (default is 10.0)
+  loc_count   number of locations (default is 15)
+  ant_count   number of ants to use (default is 10)
+  g           number of generations (default is 100)
+  alpha       relative importance of pheromone (default is 1.0)
+  beta        relative importance of heuristic information (default is 10.0)
+  rho         pheromone residual coefficient (default is 0.5)
+  q           pheromone intensity (default is 10.0)
 
 optional arguments:
   -h, --help  show this help message and exit
