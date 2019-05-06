@@ -1,4 +1,3 @@
-# Modified version from: https://github.com/ppoffice/ant-colony-tsp
 import operator
 
 import matplotlib.pyplot as plt
