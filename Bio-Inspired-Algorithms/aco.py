@@ -1,5 +1,6 @@
 # ACO implementation from: https://github.com/ppoffice/ant-colony-tsp
 import random
+import numpy as np
 
 
 class Graph(object):
@@ -48,23 +49,29 @@ class ACO(object):
         """
         best_cost = float('inf')
         best_solution = []
+        avg_costs = []
+        best_costs = []
         for gen in range(self.generations):
             # noinspection PyUnusedLocal
             ants = [_Ant(self, graph) for i in range(self.ant_count)]
             for ant in ants:
+                curr_cost = []
                 for i in range(graph.rank - 1):
                     ant._select_next()
                 ant.total_cost += graph.matrix[ant.tabu[-1]][ant.tabu[0]]
+                curr_cost.append(ant.total_cost)
                 if ant.total_cost < best_cost:
                     best_cost = ant.total_cost
                     best_solution = [] + ant.tabu
                 # update pheromone
                 ant._update_pheromone_delta()
             self._update_pheromone(graph, ants)
+            best_costs.append(best_cost)
+            avg_costs.append(np.mean(curr_cost))
             if verbose:
-                print('Generation #{} best cost: {}, path: {}'.format(
-                    gen+1, best_cost, best_solution))
-        return best_solution, best_cost
+                print('Generation #{} best cost: {}, avg cost: {}, path: {}'.format(
+                    gen+1, best_cost, avg_costs[-1], best_solution))
+        return best_solution, best_cost, avg_costs, best_costs
 
 
 class _Ant(object):

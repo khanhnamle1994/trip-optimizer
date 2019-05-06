@@ -1,7 +1,3 @@
-# Modified version of main.py from:
-# https://github.com/ppoffice/ant-colony-tsp
-
-import math
 import pandas as pd
 import numpy as np
 from aco import ACO, Graph
@@ -13,6 +9,7 @@ from geopy.exc import GeocoderTimedOut
 from geopy.geocoders import Nominatim
 import xgboost as xgb
 import pprint
+import matplotlib.pyplot as plt
 
 filename = "../xgb_model.sav"
 loaded_model = pickle.load(open(filename, 'rb'))
@@ -42,8 +39,8 @@ def time_cost_between_points(loc1, loc2, passenger_count, store_and_fwd_flag=0):
                   'pickup_month': my_date.month,
                   'pickup_day': my_date.day,
                   'pickup_weekday': my_date.weekday(),
-                  'pickup_hour': 11,
-                  'pickup_minute': 0,
+                  'pickup_hour': 23,
+                  'pickup_minute': 10,
                   'latitude_difference': loc2['y'] - loc1['y'],
                   'longitude_difference': loc2['x'] - loc1['x'],
                   'trip_distance': trip_distance_cost(loc1, loc2)
@@ -112,12 +109,12 @@ for i in range(rank):
 
 # Pass in user arguments
 aco = ACO(ant_count=args.ant_count, generations=args.g, alpha=args.alpha,
-          beta=args.beta, rho=args.rho, q=args.q, strategy=1)
+          beta=args.beta, rho=args.rho, q=args.q, strategy=2)
 
 # Build graph with cost matrix and number of points
 graph = Graph(cost_matrix, rank)
 # Get results from ant colony, specify whether verbose output
-best_path, cost = aco.solve(graph, args.verbose)
+best_path, cost, avg_costs, best_costs = aco.solve(graph, args.verbose)
 
 # Print out and plot final solution
 print('Final cost: {} minutes, path: {}'.format(cost, best_path))
@@ -134,3 +131,17 @@ if args.verbose:
         print(f"Error: geocode failed with message {e}")
 
 plot(points, best_path)
+
+x_values = [i for i in range(args.g)]
+plt.title("Best Cost vs Generation for " + str(args.ant_count) + " Ants")
+plt.ylabel("Best Cost")
+plt.xlabel("Current Generation")
+plt.plot(x_values, best_costs)
+plt.show()
+
+x_values = [i for i in range(args.g)]
+plt.title("Avg Cost vs Generation for " + str(args.ant_count) + " Ants")
+plt.ylabel("Avg Cost")
+plt.xlabel("Current Generation")
+plt.plot(x_values, avg_costs)
+plt.show()

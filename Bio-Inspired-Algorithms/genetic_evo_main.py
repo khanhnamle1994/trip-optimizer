@@ -134,6 +134,7 @@ for i in range(n):
 # Lists used for plotting at the end
 x_values = [i for i in range(generations)]
 y_values = []
+avg_costs = []
 
 best_cost = 0
 best_path = []
@@ -196,9 +197,10 @@ for g in range(generations):
 
     best_cost = min(g_star)
     y_values.append(best_cost)
+    avg_costs.append(np.mean(g_star))
     best_path = population[g_star.index(best_cost)]
     if args.verbose:
-        print("Generation #", str(g+1), "best cost:",
+        print("Generation #" + str(g+1) + " best cost:",
               best_cost, "path:", best_path)
 
 print("Min cost mean:", np.mean(y_values))
@@ -244,4 +246,16 @@ plt.ylim(min(y) - zoom_factor, max(y) + zoom_factor)
 plt.title("Genetic Evolution Path By Travel Time")
 plt.xlabel("Longitude")
 plt.ylabel("Latitude")
+plt.show()
+
+plt.title("Best Cost vs Generation for " + str(n) + " Population")
+plt.ylabel("Cost")
+plt.xlabel("Current Generation")
+plt.plot(x_values, y_values)
+plt.show()
+
+plt.title("Avg Cost vs Generation for " + str(n) + " Population")
+plt.ylabel("Avg Cost")
+plt.xlabel("Current Generation")
+plt.plot(x_values, avg_costs)
 plt.show()
