@@ -17,6 +17,15 @@ $ python3 -m pip install geopy
 
 ### Usage
 ```
+$ python3 basicAnalysis.py
+$ python3 sophisticatedAnalysis.py
+```
+to get visualization of the dataset
+```
+$ python3 XGBoost.py
+```
+to train the XGBoost machine learning model that predicts trip duration
+```
 $ python3 aco_main.py -h
 usage: aco_main.py [-h] [--verbose] loc_count ant_count g alpha beta rho q
 
