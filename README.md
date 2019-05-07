@@ -1,7 +1,6 @@
-# Final Project for CSCI 633
-## Biologically-Inspired Intelligent Systems
+# Travel Time Optimization via Ant Colony and Genetic Evolution
 
-### Requirements
+## Requirements
 * python3
 * matplotlib
 * numpy
@@ -9,13 +8,23 @@
 * xgboost
 * geopy
 
-### Installation
+## Installation
 ```
 $ python3 -m pip install xgboost
 $ python3 -m pip install geopy
 ```
 
-### Usage
+## Usage
+### Data Visualization
+```
+$ python3 basicAnalysis.py
+$ python3 sophisticatedAnalysis.py
+```
+### Predictive Modeling
+```
+$ python3 XGBoost.py
+```
+### Evolutionary Algorithms
 ```
 $ python3 aco_main.py -h
 usage: aco_main.py [-h] [--verbose] loc_count ant_count g alpha beta rho q
@@ -48,6 +57,6 @@ optional arguments:
   -h, --help  show this help message and exit
   --verbose   print out each generation cost and best path
 ```
-### Output
+## Output
 ![](https://i.imgur.com/9Iji3RD.gif)
 ![](https://i.imgur.com/S490pPp.gif)
