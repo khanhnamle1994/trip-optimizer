@@ -118,6 +118,11 @@ best_path, cost, avg_costs, best_costs = aco.solve(graph, args.verbose)
 
 # Print out and plot final solution
 print('Final cost: {} minutes, path: {}'.format(cost, best_path))
+
+# Output the mean and standard deviantion of min costs per generation
+print("Min cost mean:", np.mean(best_costs))
+print("Min cost standard deviation:", np.std(best_costs))
+
 # Print out final addresses in solution
 if args.verbose:
     print("Final path addresses:")
